@@ -8,14 +8,6 @@
 
 global.router = require('express').Router();
 var router = global.router;
-const nodemailer = require('nodemailer');
-global.transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'G.Ideas2019@gmail.com',
-        pass: 'GIdeasforGCafe2019'
-    }
-});
 
 router = require('./user');
 router = require('./bill');
@@ -30,4 +22,4 @@ router.get('/', (request, response, next) => {
     response.render('index', { title: 'SERVER GCAFE' });
 });
 
-module.exports = router;
+module.exports = router

@@ -34,7 +34,7 @@ router.post('/insert_a_item', requiresLogin, [
             if (item.activated) {
                 response.json({
                     result: "failure",
-                    message: `Tên sản đã tồn tại và đang được bán. Vui lòng nhập tên khác.`
+                    message: `Tên sản phẩm đã tồn tại và đang được bán. Vui lòng nhập tên khác.`
                 });
             }
             else {
@@ -59,7 +59,7 @@ router.post('/insert_a_item', requiresLogin, [
                         response.json({
                             result: "failure",
                             data: updatedItem,
-                            message: "Tôi tìm thấy một sản có tên tương tự trong doanh thu. Vì vậy tôi đã kích hoạt và khôi phục lịch sử sản phẩm đó cho bạn."
+                            message: "Tôi tìm thấy một sản phẩm có tên tương tự trong doanh thu. Vì vậy tôi đã kích hoạt và khôi phục lịch sử sản phẩm đó cho bạn."
                         });
                     }
                 });

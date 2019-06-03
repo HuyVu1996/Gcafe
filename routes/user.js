@@ -91,8 +91,8 @@ router.post('/insert_a_user', [
 });
 
 router.post('/login', [
-  check('id', '"Người dùng" Không được rỗng.').trim().isLength({ min: 8, max: 24 }),
-  check('password', '"Mật khẩu" Không được rỗng.').isLength({ min: 8, max: 24 }),
+  check('id', '"Người dùng" Không được rỗng.').trim().not().isEmpty(),
+  check('password', '"Mật khẩu" Không được rỗng.').not().isEmpty(),
 ], (request, response, next) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
