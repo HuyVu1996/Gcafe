@@ -20,7 +20,7 @@ const  { check, oneOf, validationResult } = require('express-validator/check');
 router.post('/insert_a_recruitment',requiresLogin,[
     check('shop_name', '"shop_name" must be not empty.').trim().not().isEmpty(),
     check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
-    check('numberphone', "numberphone must be Numberic, is MobilePhone").not().isEmpty().isNumeric().isMobilePhone(),
+    check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
     check('job', '"Chức vụ" Không được rỗng và nhỏ hơn 50 kí tự.').trim().not().isEmpty().isLength({max:50}),
     check('timeworking', '"Thời gian làm việc" Không được rỗng và nhỏ hơn 20 kí tự.').trim().not().isEmpty().isLength({max:20}),
     check('salary', '"Lương" Không được rỗng và nhỏ hơn 20 kí tự.').trim().not().isEmpty().isLength({max:20}),

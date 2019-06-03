@@ -23,6 +23,11 @@ var UserSchema = new Schema({
         trim: true,
         required: true,
     },
+    status: {
+        type: String,
+        default: "OK",
+        trim: true,
+    },
     id: {
         type: String,
         required: true,

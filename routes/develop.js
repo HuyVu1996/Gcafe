@@ -12,9 +12,9 @@ const transporter = global.transporter;
 router.post('/insert_a_develop', requiresLogin, [
     check('shop_name', '"shop_name" must be not empty.').trim().not().isEmpty(),
     check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
-    check('numberphone', "numberphone must be Numberic, is MobilePhone").not().isEmpty().isNumeric().isMobilePhone(),
-    check('title', '"title" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({ max: 50 }),
-    check('descriptions', '"descriptions" must be not empty, > 30 characters, <= 1000 characters.').trim().not().isEmpty().isLength({ min: 30 }),
+    check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
+    check('title', '"Tiêu đề" Không được rỗng và từ 10-50 kí tự.').trim().not().isEmpty().isLength({min:10, max: 50 }),
+    check('descriptions', '"Mô tả" Không được rỗng và từ 30-500 kí tự.').trim().not().isEmpty().isLength({ min: 30 ,max :500}),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
