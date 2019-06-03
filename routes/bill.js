@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 const { check, oneOf, validationResult } = require('express-validator/check');
 // ,'"total_money" must be not Empty, is Numeric, > 0.'
 router.post('/insert_a_bill', requiresLogin, [
-    check('total_money', '"total_money" must be not Empty, is Numeric, > 0.').trim().not().isEmpty().isNumeric().isFloat({ gt: 0 }),
+    check('total_money', '"total_money" Không được rỗng, là kí tự số và lớn hơn 0.').trim().not().isEmpty().isNumeric().isFloat({ gt: 0 }),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -106,8 +106,8 @@ router.get('/get_revenue_shift', requiresLogin, (request, response, next) => {
                 message: "You don't have any bill in history."
             })
         } else {
-            revenueshift.forEach((element,index) => {
-                revenueshift[index]._id =  element._id + UTC<24?element._id + UTC:element._id + UTC-24;
+            revenueshift.forEach((element, index) => {
+                revenueshift[index]._id = element._id + UTC < 24 ? element._id + UTC : element._id + UTC - 24;
             });
             response.json({
                 result: "success",
@@ -328,7 +328,7 @@ router.get('/get_revenue_this_week', requiresLogin, (request, response, next) =>
     let month = now.getMonth();
     let date = now.getDate();
     let day = now.getDay();
-    let from_time = new Date(year, month, date - day + 1 - ( day<1?7:0), UTC);// monday of this week
+    let from_time = new Date(year, month, date - day + 1 - (day < 1 ? 7 : 0), UTC);// monday of this week
     let to_time = new Date();
     from_time.setUTCHours(-UTC);
     Bill.aggregate([

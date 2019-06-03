@@ -25,7 +25,7 @@ let options = {
 };
 // Use native Promises
 mongoose.Promise = global.Promise;
-GCafeMongoDB = mongoose.connect('mongodb://localhost:27017/GCafeMongoDB', options).then(
+GCafeMongoDB = mongoose.connect('mongodb://127.0.0.1:27017/GCafeMongoDB', options).then(
   () => {
     console.log("connect DB successfully");
   },

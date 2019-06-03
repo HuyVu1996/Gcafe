@@ -4,8 +4,8 @@
 // Router recruitment
 
 const router = global.router;
-const Recruitment = require('../models/RecruitmentModel');
-const mongoose = require('mongoose');
+// const Recruitment = require('../models/RecruitmentModel');
+// const mongoose = require('mongoose');
 const transporter = global.transporter;
 // const nodemailer = require('nodemailer');
 // const transporter = nodemailer.createTransport({
@@ -21,10 +21,10 @@ router.post('/insert_a_recruitment',requiresLogin,[
     check('shop_name', '"shop_name" must be not empty.').trim().not().isEmpty(),
     check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
     check('numberphone', "numberphone must be Numberic, is MobilePhone").not().isEmpty().isNumeric().isMobilePhone(),
-    check('job', '"job" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({max:50}),
-    check('timeworking', '"timeworking" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({max:50}),
-    check('salary', '"salary" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({max:50}),
-    check('descriptions', '"descriptions" must be not empty, > 30 characters, <= 1000 characters.').trim().isLength({min:30, max:1000}),
+    check('job', '"Chức vụ" Không được rỗng và nhỏ hơn 50 kí tự.').trim().not().isEmpty().isLength({max:50}),
+    check('timeworking', '"Thời gian làm việc" Không được rỗng và nhỏ hơn 20 kí tự.').trim().not().isEmpty().isLength({max:20}),
+    check('salary', '"Lương" Không được rỗng và nhỏ hơn 20 kí tự.').trim().not().isEmpty().isLength({max:20}),
+    check('descriptions', '"Mô tả" Không được rỗng và tư 30-1000 kí tự.').trim().isLength({min:30, max:1000}),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -33,17 +33,17 @@ router.post('/insert_a_recruitment',requiresLogin,[
     let mailOptions = {
         from: 'G.Ideas2019@gmail.com',
         to: 'info@gideas.vn',
-        subject: `Sending a recruitment from server G.Cafe `,
-        text:`This email is sent to up RECRUITMENT from app GCafe.\n
-            \ndate:${new Date()}
-            \nSender_id: ${request.session.user_id}
-            \nshop_name: ${request.body.shop_name}
-            \naddress: ${request.body.address}
-            \nnumberphone: ${request.body.numberphone}
-            \njob: ${request.body.job}
-            \ntimeworking: ${request.body.timeworking}
-            \nsalary: ${request.body.salary}
-            \ndescriptions: ${request.body.descriptions}
+        subject: `Máy chủ G.Cafe gửi một TUYỂN DỤNG`,
+        text: `Email này được gửi để TUYỂN DỤNG từ ứng dụng GCafe.\n
+            \nNgày:${new Date()}
+            \nMã ID người gửi: ${request.session.user_id}
+            \nTên quán: ${request.body.shop_name}
+            \nĐịa chỉ: ${request.body.address}
+            \nSố điện thoại: ${request.body.numberphone}
+            \nChức vụ: ${request.body.job}
+            \nThời gian làm việc: ${request.body.timeworking}
+            \nLương: ${request.body.salary}
+            \nMô tả: ${request.body.descriptions}
             `,
         // html: '<h1>Welcome !</h1><p>This email is sent using Node js with nodemailer. Sender: BOSSHIE</p>'
     };
@@ -59,7 +59,7 @@ router.post('/insert_a_recruitment',requiresLogin,[
             console.log('Email sent: ' + info.response);
             response.json({
                 result: "success",
-                message: "Insert new recruitment successfully.",
+                message: "Yêu cầu tuyển dụng thành công.",
             });
         }
     });

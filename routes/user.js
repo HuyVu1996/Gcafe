@@ -21,7 +21,7 @@ requiresLogin = ((request, response, next) => {
     console.log(request.cookies['connect.sid']);
     response.json({
       result: "failure",
-      message: `Error is: You must be logged in to view this page.`
+      message: `Bạn phải đăng nhập để yêu cầu chức năng này.`,
     });
   }
 });
@@ -34,11 +34,11 @@ getUTC = (() => {
 
 
 router.post('/insert_a_user', [
-  check('shop_name', '"shop_name" must be not empty.').trim().not().isEmpty(),
-  check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
-  check('numberphone', "numberphone must be Numberic, is MobilePhone").not().isEmpty().isNumeric().isMobilePhone(),
-  check('id', '"id" must be between 8 - 24 characters.').trim().isLength({ min: 8, max: 24 }),
-  check('password', '"password" must be not empty, between 8-24 characters.').isLength({ min: 8, max: 24 }),
+  check('shop_name', '"Tên quán" Không được rỗng.').trim().not().isEmpty(),
+  check('address', '"Địa chỉ" Không được rỗng và từ 10-100 kí tự.').trim().isLength({ min: 10, max: 100}),
+  check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
+  check('id', '"Người dùng" Không được rỗng và từ 8-24 kí tự.').trim().isLength({ min: 8, max: 24 }),
+  check('password', '"Mật khẩu" Không được rỗng và từ 8-24 kí tự.').isLength({ min: 8, max: 24 }),
 ], (request, response, next) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
@@ -53,7 +53,7 @@ router.post('/insert_a_user', [
     } else if (user) {
       response.json({
         result: "failure",
-        message: `ID already exists please enter another id.`
+        message: `Tên người dùng đã tồn tại vui lòng nhập tên người dùng khác.`
       });
     } else {
       const newUser = new User({
@@ -82,7 +82,7 @@ router.post('/insert_a_user', [
               id: newUser.id,
               password: request.body.password,
             },
-            message: "Sign Up new user successfully."
+            message: "Đăng ký người dùng mới thành công."
           });
         }
       });
@@ -91,8 +91,8 @@ router.post('/insert_a_user', [
 });
 
 router.post('/login', [
-  check('id', '"id" must be not empty.').trim().not().isEmpty(),
-  check('password', '"password" must be not empty.').trim().not().isEmpty(),
+  check('id', '"Người dùng" Không được rỗng.').trim().isLength({ min: 8, max: 24 }),
+  check('password', '"Mật khẩu" Không được rỗng.').isLength({ min: 8, max: 24 }),
 ], (request, response, next) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
@@ -107,7 +107,7 @@ router.post('/login', [
     } else if (!user) {
       response.json({
         result: "failure",
-        message: `Error is : User not found.`,
+        message: `Người dùng này chưa tồn tại.`,
       });
     } else {
       var res = bcrypt.compareSync(request.body.password, user.password, null);
@@ -122,13 +122,13 @@ router.post('/login', [
             response.json({
               result: "success",
               user: user,
-              message: `Login account successfully.`
+              message: `Đăng nhập thành công.`
             });
           }
       } else {
         response.json({
           result: "failure",
-          message: `Account or password is incorrect.`
+          message: `Người dùng hoặc mật khẩu không chính xác.`
         });
       }
     }
@@ -136,12 +136,12 @@ router.post('/login', [
 });
 
 router.put('/update_profile', requiresLogin, [
-  check('shop_name', '"shop name" must be not empty.').trim().not().isEmpty(),
-  check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
-  check('numberphone', '"number phone" must be Numberic, is MobilePhone').trim().not().isEmpty().isNumeric().isMobilePhone(),
-  check('id', '"id" must be not empty.').trim().not().isEmpty(),
-  check('password', '"password" must be not empty, between 8-24 characters.').isLength({ min: 8, max: 24 }),
-  check('newpassword', '"newpassword" must be not empty, between 8-24 characters.').isLength({ min: 8, max: 24 }),
+  check('shop_name', '"Tên quán" Không được rỗng.').trim().not().isEmpty(),
+  check('address', '"Địa chỉ" Không được rỗng và từ 10-100 kí tự.').trim().isLength({ min: 10, max: 100}),
+  check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
+  check('id', '"Người dùng" Không được rỗng và từ 8-24 kí tự.').trim().isLength({ min: 8, max: 24 }),
+  check('password', '"Mật khẩu" Không được rỗng và từ 8-24 kí tự.').isLength({ min: 8, max: 24 }),
+  check('newpassword', '"Mật khẩu mới" Không được rỗng và từ 8-24 kí tự.').isLength({ min: 8, max: 24 }),
 ], (request, response, next) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
@@ -177,20 +177,20 @@ router.put('/update_profile', requiresLogin, [
           if (err) {
             response.json({
               result: "failure",
-              message: `Cannot update existing item.Error is : ${err}`
+              message: `Error is : ${err}`
             });
           } else {
             response.json({
               result: "success",
               user: newUser,
-              message: "Update item successfully"
+              message: "Cập nhật hồ sơ thành công"
             });
           }
         });
       } else {
         response.json({
           result: "failure",
-          message: `Password is incorrect.`
+          message: `Sai mật khẩu. Vui lòng nhập lại.`
         });
       }
     }
@@ -235,7 +235,7 @@ router.get('/logout', requiresLogin, (request, response, next) => {
       } else {
         response.json({
           result: "success",
-          message: `Logout account successfully.`
+          message: `Đã đăng xuất.`
         });
       }
     });

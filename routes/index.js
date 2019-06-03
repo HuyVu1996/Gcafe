@@ -27,7 +27,7 @@ router = require('./activated');
 
 /* GET home page. */
 router.get('/', (request, response, next) => {
-    response.render('index', { title: 'My tutorial videos' });
+    response.render('index', { title: 'SERVER GCAFE' });
 });
 
 module.exports = router;

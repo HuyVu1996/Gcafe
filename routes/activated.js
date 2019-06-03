@@ -6,11 +6,11 @@
 var router = global.router;
 let Card = require('../models/CardModel');
 var mongoose = require('mongoose');
-const  { check, oneOf, validationResult } = require('express-validator/check');
+const { check, oneOf, validationResult } = require('express-validator/check');
 
-router.post('/insert_a_activated',requiresLogin,[
-    check('seri', '"seri" must be not empty,between 12-20 characters.').isLength({ min: 12, max: 20 }),
-    check('code', '"code" must be not empty,between 12-20 characters.').isLength({ min: 12, max: 20 }),
+router.post('/insert_a_activated', requiresLogin, [
+    check('seri', '"seri" Không được rỗng và có từ 12-20 kí tự.').isLength({ min: 12, max: 20 }),
+    check('code', '"code" Không được rỗng và có từ 12-20 kí tự.').isLength({ min: 12, max: 20 }),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -32,7 +32,7 @@ router.post('/insert_a_activated',requiresLogin,[
             response.json({
                 result: "success",
                 data: newCard,
-                message: "Insert new activated successfully. Please wait 5-10 minutes for the system to process. ",
+                message: "Đã kích hoạt thành công. Vui lòng đợi 5-10 phút để hệ thống xác nhận và xử lý.",
             });
         }
     });

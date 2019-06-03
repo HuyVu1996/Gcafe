@@ -10,9 +10,9 @@ var mongoose = require('mongoose');
 const { check, oneOf, validationResult } = require('express-validator/check');
 
 router.post('/insert_a_item', requiresLogin, [
-    check('name', '"name" must be not empty.').trim().not().isEmpty(),
-    check('unit_price', '"unit_price" must be not empty, is numeric, >0.').not().isEmpty().isNumeric().isFloat({ gt: 0 }),
-    check('uri_image', '"uri_image" must be  not empty.').trim().not().isEmpty(),
+    check('name', '"Tên" Không được rỗng.').trim().not().isEmpty(),
+    check('unit_price', '"Giá" Không được rỗng, là kí tự sô và lớn hơn 0.').not().isEmpty().isNumeric().isFloat({ gt: 0 }),
+    check('uri_image', '"Icon" Chưa được chọn.').trim().not().isEmpty(),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -34,7 +34,7 @@ router.post('/insert_a_item', requiresLogin, [
             if (item.activated) {
                 response.json({
                     result: "failure",
-                    message: `Item name already exists please enter another name.`
+                    message: `Tên sản đã tồn tại và đang được bán. Vui lòng nhập tên khác.`
                 });
             }
             else {
@@ -59,7 +59,7 @@ router.post('/insert_a_item', requiresLogin, [
                         response.json({
                             result: "failure",
                             data: updatedItem,
-                            message: "I found an item with a similar name so I activated and restored history to you."
+                            message: "Tôi tìm thấy một sản có tên tương tự trong doanh thu. Vì vậy tôi đã kích hoạt và khôi phục lịch sử sản phẩm đó cho bạn."
                         });
                     }
                 });
@@ -76,7 +76,7 @@ router.post('/insert_a_item', requiresLogin, [
                     response.json({
                         result: "success",
                         data: item,
-                        message: "Insert new item successfully."
+                        message: "Tạo sản phẩm mới thành công."
                     });
                 }
             });
@@ -110,9 +110,9 @@ router.get('/get_list_all_items', requiresLogin, (request, response, next) => {
 
 router.put('/update_a_item', requiresLogin, [
     check('item_id', '"item_id" must be not empty, is objectid.').trim().not().isEmpty().isMongoId(),
-    check('name', '"name" must be not empty.').trim().not().isEmpty(),
-    check('unit_price', '"unit_price" must be not empty, is numeric.').trim().not().isEmpty(),
-    check('uri_image', '"uri_image" must be  not empty.').trim().not().isEmpty(),
+    check('name', '"Tên" Không được rỗng.').trim().not().isEmpty(),
+    check('unit_price', '"Giá" Không được rỗng và là kí tự số').trim().not().isEmpty(),
+    check('uri_image', '"Biểu tượng" Chưa chọn biểu tượng').trim().not().isEmpty(),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -127,7 +127,7 @@ router.put('/update_a_item', requiresLogin, [
         } else if (item && item._id != request.body.item_id) {
             response.json({
                 result: "failure",
-                message: `Item name already exists please enter another name.`
+                message: `Tên sản phẩm đã tồn tại, vui lòng nhập tên khác.`
             });
         } else {
             let conditions = {
@@ -153,7 +153,7 @@ router.put('/update_a_item', requiresLogin, [
                     response.json({
                         result: "success",
                         data: updatedItem,
-                        message: "Update a item successfully."
+                        message: "Cập nhật sản phẩm thành công."
                     });
                 }
             });
@@ -232,7 +232,7 @@ router.delete('/delete_a_item', requiresLogin, [
                     response.json({
                         result: "failure",
                         data: updatedItem,
-                        message: "I was deactivated this item because it have revenua in history."
+                        message: "Tôi đã tạm thời vô hiệu hóa sản phẩm này vì nó có doanh thu trong lịch sử. Bạn có thể khôi phục nó bằng cách tạo sản phẩm có tên tương tự."
                     });
                 }
             });
@@ -247,7 +247,7 @@ router.delete('/delete_a_item', requiresLogin, [
                     response.json({
                         result: "success",
                         data: item,
-                        message: "Delete a item successful."
+                        message: "Xóa sản phẩm thành công."
                     });
                 }
             });

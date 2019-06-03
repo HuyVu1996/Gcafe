@@ -4,17 +4,17 @@
 // Router Develop
 
 var router = global.router;
-let Develop = require('../models/DevelopModel');
-var mongoose = require('mongoose');
-const  { check, oneOf, validationResult } = require('express-validator/check');
+// let Develop = require('../models/DevelopModel');
+// var mongoose = require('mongoose');
+const { check, oneOf, validationResult } = require('express-validator/check');
 const transporter = global.transporter;
 
-router.post('/insert_a_develop',requiresLogin,[
+router.post('/insert_a_develop', requiresLogin, [
     check('shop_name', '"shop_name" must be not empty.').trim().not().isEmpty(),
     check('address', '"address" must be not empty, >=10 characters.').trim().isLength({ min: 10 }),
     check('numberphone', "numberphone must be Numberic, is MobilePhone").not().isEmpty().isNumeric().isMobilePhone(),
-    check('title', '"title" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({max:50}),
-    check('descriptions', '"descriptions" must be not empty, > 30 characters, <= 1000 characters.').trim().not().isEmpty().isLength({min:30}),
+    check('title', '"title" must be not empty, <= 50 characters.').trim().not().isEmpty().isLength({ max: 50 }),
+    check('descriptions', '"descriptions" must be not empty, > 30 characters, <= 1000 characters.').trim().not().isEmpty().isLength({ min: 30 }),
 ], (request, response, next) => {
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -23,8 +23,8 @@ router.post('/insert_a_develop',requiresLogin,[
     let mailOptions = {
         from: 'Gcafe',
         to: 'info@gideas.vn',
-        subject: `Sending a develop from server G.Cafe `,
-        text:`This email is sent to up DEVELOP from app GCafe.\n
+        subject: `Máy chủ G.Cafe gửi một PHÁT TRIỂN`,
+        text: `Email này được gửi để PHÁT TRIỂN ứng dụng GCafe.\n
             \ndate:${new Date()}
             \nSender_id: ${request.session.user_id}
             \nshop_name: ${request.body.shop_name}
@@ -37,16 +37,16 @@ router.post('/insert_a_develop',requiresLogin,[
     };
     transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err);
+            // console.log(err);
             response.json({
                 result: "failure",
                 message: `Error is : ${err}`
             });
         } else {
-            console.log('Email sent: ' + info.response);
+            // console.log('Email sent: ' + info.response);
             response.json({
                 result: "success",
-                message: "Insert new develop successfully.",
+                message: "Gửi tin thành công.",
             });
         }
     });
