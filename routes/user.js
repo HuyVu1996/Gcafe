@@ -196,7 +196,7 @@ router.put('/update_profile', requiresLogin, [
     }
   });
 });
-router.post('/changepassword', requiresLogin, [
+router.put('/changepassword', [
   check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
   check('id', '"Người dùng" Không được rỗng và từ 8-24 kí tự.').trim().isLength({ min: 8, max: 24 }),
   check('newpassword', '"Mật khẩu mới" Không được rỗng và từ 8-24 kí tự.').isLength({ min: 8, max: 24 }),
