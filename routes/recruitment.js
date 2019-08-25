@@ -33,8 +33,8 @@ router.post('/insert_a_recruitment',requiresLogin,[
     let mailOptions = {
         from: 'G.Ideas2019@gmail.com',
         to: 'info@gideas.vn',
-        subject: `Máy chủ G.Cafe gửi một TUYỂN DỤNG`,
-        text: `Email này được gửi để TUYỂN DỤNG từ ứng dụng GCafe.\n
+        subject: `Máy chủ EasyCoffe gửi một TUYỂN DỤNG`,
+        text: `Email này được gửi để TUYỂN DỤNG từ ứng dụng EasyCoffe.\n
             \nNgày:${new Date()}
             \nMã ID người gửi: ${request.session.user_id}
             \nTên quán: ${request.body.shop_name}

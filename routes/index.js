@@ -19,7 +19,7 @@ router = require('./activated');
 
 /* GET home page. */
 router.get('/', (request, response, next) => {
-    response.render('index', { title: 'SERVER GCAFE' });
+    response.render('index', { title: 'SERVER EASYCOFFE' });
 });
 
 module.exports = router

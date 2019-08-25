@@ -196,6 +196,53 @@ router.put('/update_profile', requiresLogin, [
     }
   });
 });
+router.post('/changepassword', requiresLogin, [
+  check('numberphone', '"Số điện thoại" Không được rỗng và là kiểu số điện thoại.').not().isEmpty().isNumeric().isMobilePhone(),
+  check('id', '"Người dùng" Không được rỗng và từ 8-24 kí tự.').trim().isLength({ min: 8, max: 24 }),
+  check('newpassword', '"Mật khẩu mới" Không được rỗng và từ 8-24 kí tự.').isLength({ min: 8, max: 24 }),
+], (request, response, next) => {
+  const errors = validationResult(request);
+  if (!errors.isEmpty()) {
+    return response.status(422).json({ errors: errors.array() });
+  }
+  User.findOne({ id: request.body.id ,numberphone:request.body.numberphone }).exec(function (err, user) {
+    if (err) {
+      response.json({
+        result: "failure",
+        message: `Error is : ${err}`
+      });
+    } else if (!user) {
+      response.json({
+        result: "failure",
+        message: `Không tìm thấy người dùng có số điện thoại của bạn.`,
+      });
+    } else {
+        let conditions = { id: request.body.id ,numberphone:request.body.numberphone };//search record with "conditions" to update
+        const newValues = {};
+        if (request.body.newpassword)
+          newValues.password = bcrypt.hashSync(request.body.newpassword, bcrypt.genSaltSync(10), null)
+        const options = {
+          new: true, // return the modified document rather than the original.
+          multi: true
+        }
+        User.findOneAndUpdate(conditions, { $set: newValues }, options, (err, newUser) => {
+          if (err) {
+            response.json({
+              result: "failure",
+              message: `Error is : ${err}`
+            });
+          } else {
+            response.json({
+              result: "success",
+              user: newUser,
+              message: "Thay đổi mật khẩu thành công"
+            });
+          }
+        });
+      }
+    }
+  });
+});
 
 router.get('/profile', requiresLogin, (request, response, next) => {
   const errors = validationResult(request);
@@ -223,7 +270,6 @@ router.get('/profile', requiresLogin, (request, response, next) => {
     }
   });
 });
-
 router.get('/logout', requiresLogin, (request, response, next) => {
   if (request.session) {
     request.session.destroy((err) => {

@@ -23,15 +23,15 @@ router.post('/insert_a_develop', requiresLogin, [
     let mailOptions = {
         from: 'Gcafe',
         to: 'info@gideas.vn',
-        subject: `Máy chủ G.Cafe gửi một PHÁT TRIỂN`,
-        text: `Email này được gửi để PHÁT TRIỂN ứng dụng GCafe.\n
-            \ndate:${new Date()}
-            \nSender_id: ${request.session.user_id}
-            \nshop_name: ${request.body.shop_name}
-            \naddress: ${request.body.address}
-            \nnumberphone: ${request.body.numberphone}
-            \ntitle: ${request.body.title}
-            \ndescriptions: ${request.body.descriptions}
+        subject: `Máy chủ EasyCoffe gửi một PHÁT TRIỂN`,
+        text: `Email này được gửi để PHÁT TRIỂN ứng dụng EasyCoffe.\n
+            \nNgày:${new Date()}
+            \nMã ID người gửi: ${request.session.user_id}
+            \nTên quán: ${request.body.shop_name}
+            \nĐịa chỉ: ${request.body.address}
+            \nSố điện thoại: ${request.body.numberphone}
+            \nTiêu đề: ${request.body.title}
+            \nMô tả: ${request.body.descriptions}
             `,
         // html: '<h1>Welcome !</h1><p>This email is sent using Node js with nodemailer. Sender: BOSSHIE</p>'
     };
