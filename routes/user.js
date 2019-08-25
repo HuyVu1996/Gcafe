@@ -240,7 +240,6 @@ router.put('/changepassword', [
           }
         });
       }
-    }
   });
 });
 
